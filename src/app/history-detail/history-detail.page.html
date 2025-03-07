@@ -1,0 +1,15 @@
+
+<ion-card color="light">
+  <img [src]="history?.image"/>
+  <ion-card-content>
+    <ion-card-title>
+     <strong> {{ history?.name }} </strong>
+      </ion-card-title>
+      <hr>
+    <p>
+      {{ history?.description }}
+    </p>
+    <hr>
+    <p><strong>Price:</strong> ${{ history?.price }}</p>
+  </ion-card-content>
+</ion-card>

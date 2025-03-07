@@ -1,0 +1,49 @@
+<ion-content class="login-container">
+  
+  <div class="login-box">
+    <h2><strong>Toy & History Store</strong></h2>
+    <p>Verify your email to access your account.</p>
+
+    <hr>
+    <div class="illustration">
+      <img src="/assets/images/vecteezy_child-in-pajamas-holding-teddy-bear_55333059.png" 
+           alt="Verification Illustration" />
+    </div>
+
+    <hr>
+
+    <form (ngSubmit)="verifyUser()">
+      
+      <!-- Email Input -->
+      <ion-item>
+        <ion-icon name="mail-outline" class="input-icon"></ion-icon>
+        <input class="custom-input" name="email" autocomplete="email" placeholder="Email ID" 
+               [(ngModel)]="email" type="email" fill="solid" />
+      </ion-item>
+
+      <!-- Verification Code Input -->
+      <ion-item>
+        <ion-icon name="key-outline" class="input-icon"></ion-icon>
+        <input class="custom-input" name="code" placeholder="Verification Code" 
+               [(ngModel)]="code" type="text" />
+      </ion-item>
+
+      <!-- Resend Code Link -->
+      <div class="forgot-password">
+        <a (click)="resendCode()">Resend Code</a>
+      </div>
+
+      <!-- Verify Button -->
+      <ion-button expand="full" type="submit" [disabled]="loading" class="login-button">
+        <ion-spinner *ngIf="loading"></ion-spinner>
+        Verify
+      </ion-button>
+
+    </form>
+
+    <div class="signup-link">
+      <p>Already verified? <a href="login">Login</a></p>
+    </div>
+  </div>
+
+</ion-content>

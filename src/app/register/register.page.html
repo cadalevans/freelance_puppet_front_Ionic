@@ -1,0 +1,54 @@
+<ion-content class="login-container">
+  
+  <div class="login-box">
+    <h2><strong>Toy & History Store</strong></h2>
+    <p>Just one step away to our products.</p>
+
+    <hr>
+    <div class="illustration">
+      <img src="/assets/images/vecteezy_a-young-girl-holding-a-teddy-bear_56827077.PNG" alt="Toy Store Illustration" />
+    </div>
+
+    <hr>
+
+    <form [formGroup]="registerForm" (ngSubmit)="registerUser()">
+
+      <!-- First Name Input -->
+<ion-item>
+  <ion-icon name="person-outline" class="input-icon"></ion-icon>
+  <input class="custom-input" name="firstName" placeholder="First Name"
+         formControlName="firstName" type="text" />
+</ion-item>
+
+<!-- Last Name Input -->
+<ion-item>
+  <ion-icon name="person-outline" class="input-icon"></ion-icon>
+  <input class="custom-input" name="lastName" placeholder="Last Name"
+         formControlName="lastName" type="text" />
+</ion-item>
+
+<!-- Email Input -->
+<ion-item>
+  <ion-icon name="mail-outline" class="input-icon"></ion-icon>
+  <input class="custom-input" name="email" autocomplete="email" placeholder="Email ID" 
+         formControlName="email" type="email" />
+</ion-item>
+
+<!-- Password Input -->
+<ion-item>
+  <ion-icon name="lock-closed-outline" class="input-icon"></ion-icon>
+  <input class="custom-input" name="password" placeholder="Password" 
+         formControlName="password" type="password" />
+  <ion-icon name="eye-outline" class="toggle-password"></ion-icon>
+</ion-item>
+
+    
+      <ion-button expand="full" type="submit" [disabled]="!registerForm.valid" class="login-button">Sign up</ion-button>
+    </form>
+    
+    
+    <div class="signup-link">
+      <p>Already have an account? <a href="login">Login</a></p>
+    </div>
+  </div>
+</ion-content>

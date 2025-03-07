@@ -1,0 +1,32 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>My Cart</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="safe-area">
+  <div class="cart-container">
+    <!-- Display total price -->
+    <div class="total-price">
+      <h2>Total Price: ${{ totalPrice.toFixed(2) }}</h2>
+    </div>
+
+    <!-- List of items in cart -->
+    <div class="cart-list">
+      <div class="cart-item" *ngFor="let history of cartItems">
+        <img [src]="'http://localhost:8082' + history.image" alt="{{ history.name }}" class="cart-image" />
+        <div class="cart-text">
+          <h4>{{ history.name }}</h4>
+         
+          <p><strong>Price:</strong> ${{ history.price }}</p>
+        </div>
+        <ion-button fill="clear" color="danger" (click)="removeFromCart(history.id)">
+          <ion-icon name="trash"></ion-icon>
+        </ion-button>
+      </div>
+    </div>
+  </div>
+</ion-content>

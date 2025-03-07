@@ -1,40 +1,28 @@
-<ion-content class="login-container">
-  
-  <div class="login-box">
-    <h2><strong>Toy & History Store</strong></h2>
-    <p>Just one step away to our products.</p>
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Toys Collection</ion-title>
+  </ion-toolbar>
+</ion-header>
 
-    <hr>
-    <div class="illustration">
-      <img src="/assets/images/vecteezy_a-young-girl-holding-a-teddy-bear_56827077.PNG" alt="Toy Store Illustration" />
-    </div>
+<ion-content fullscreen="true" class="safe-area">
+  <!-- Search Bar -->
+  <ion-searchbar (ionInput)="filterItems($event)"></ion-searchbar>
 
-    <hr>
+  <div class="history-list">
+    <div class="history-item" *ngFor="let history of filteredHistories"  (click)="goToHistoryDetail(history.id)">
+      <div class="history-card">
+        <img class="history-image" [src]="history.image" alt="{{ history.name }}" />
+        <div class="history-text">
+          <h4><strong> {{ history.name }} </strong></h4>
+          <p class="price">${{ history.price }}</p>
+        </div>
 
-    <form [formGroup]="registerForm" (ngSubmit)="registerUser()">
-      <ion-item>
-        <ion-input id="firstName" placeholder="First Name" formControlName="firstName" type="text"></ion-input>
-      </ion-item>
-    
-      <ion-item>
-        <ion-input id="lastName" placeholder="Last Name" formControlName="lastName" type="text"></ion-input>
-      </ion-item>
-    
-      <ion-item>
-        <ion-input id="email" placeholder="Email" formControlName="email" type="email"></ion-input>
-      </ion-item>
-      
-      <ion-item>
-        <ion-input id="password" placeholder="Password" formControlName="password" type="password"></ion-input>
-        <ion-icon name="eye-outline"></ion-icon>
-      </ion-item>
-    
-      <ion-button expand="full" type="submit" [disabled]="!registerForm.valid" class="login-button">Register</ion-button>
-    </form>
-    
-    
-    <div class="signup-link">
-      <p>Don't have an account? <a href="#">Sign up</a></p>
+        <!-- Show 🛒 icon ONLY if the item is NOT in the cart -->
+        <ion-button *ngIf="!cartItems.has(history.id)" fill="clear" (click)="addToCart(history.id)">
+          shop
+          <ion-icon name="cart"></ion-icon>
+        </ion-button>
+      </div>
     </div>
   </div>
 </ion-content>
