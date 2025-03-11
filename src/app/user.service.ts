@@ -2,6 +2,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { UserHistory } from './home/history';
 
 @Injectable({
   providedIn: 'root'
@@ -54,6 +55,10 @@ export class UserService {
           return throwError(() => new Error(errorMessage));
         })
       );
+  }
+
+  getAllUserHistory(userId: number | null): Observable<UserHistory[]>{
+    return this.http.get<UserHistory[]>(`${userId}/histories`);
   }
    
 

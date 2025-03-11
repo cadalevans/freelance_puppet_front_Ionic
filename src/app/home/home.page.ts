@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../user.service';
 import { ToastController } from '@ionic/angular';
@@ -19,23 +19,13 @@ import { CardService } from '../card.service';
 export class HomePage implements OnInit{
 
 
-
-buyHistory(_t7: UserHistory) {
-throw new Error('Method not implemented.');
-}
-
-
-
-public baseUrl: string = 'http://localhost:8082/';
-
-
-
   constructor(private fb: FormBuilder,
      private userService: UserService,
      private toastController: ToastController,
      private router:Router,
      private historyService: HistoryService,
-     private cardService: CardService
+     private cardService: CardService,
+     private cdRef: ChangeDetectorRef
     ) {
 
 
@@ -61,11 +51,13 @@ public baseUrl: string = 'http://localhost:8082/';
    fetchHistories(): void {
     this.historyService.getAllHistory(this.userId).subscribe(
       (data) => {
+        console.log('Fetched Histories:', data); // Debugging API response
         this.histories = data.map(history => ({
           ...history,
           image: `${environment.apiUrl}${history.image}` // Ensure full URL for images
         }));
         this.filteredHistories = this.histories; // Initialize filtered list
+        this.cdRef.detectChanges(); // ✅ Force UI update
       },
       (error) => console.error('Error fetching histories:', error)
     );
@@ -87,11 +79,19 @@ public baseUrl: string = 'http://localhost:8082/';
   }
 
   // Add item to cart
-  addToCart(historyId: number): void {
+  addToCart(historyId: number, event: Event): void {
+    event.stopImmediatePropagation();
+    
     this.cardService.addHistoryToCard(this.userId, historyId).subscribe(
       () => {
-        this.cartItems.add(historyId); // Update UI to hide the cart icon
-        this.realTimeLoader();
+        this.cartItems.add(historyId); // ✅ Update UI to hide cart icon
+        this.realTimeLoader(); // ✅ Update cart count
+  
+        this.cardService.getCardHistory(this.userId).subscribe(() => {
+          this.cardService.updateCartCount(this.cartItems.size); // ✅ Refresh data in Cart
+        });
+  
+        this.cdRef.detectChanges();
       },
       (error) => console.error('Error adding to cart:', error)
     );
@@ -119,5 +119,12 @@ public baseUrl: string = 'http://localhost:8082/';
       });
     }
 
+    // remove history to card 
+    removeFromCart(historyId: number) {
+      this.cardService.removeHistoryToCard(this.userId, historyId).subscribe(() => {
+        this.realTimeLoader();
+        this.cdRef.detectChanges();
+      });
+    }
 
 }

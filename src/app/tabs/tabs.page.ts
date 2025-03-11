@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CardService } from '../card.service';
 import { UserService } from '../user.service';
 
@@ -6,6 +6,7 @@ import { UserService } from '../user.service';
   selector: 'app-tabs',
   templateUrl: './tabs.page.html',
   styleUrls: ['./tabs.page.scss'],
+  standalone: false
 })
 export class TabsPage implements OnInit {
 
@@ -13,13 +14,24 @@ export class TabsPage implements OnInit {
 
   userId= this.userService.getUserId();
 
-  constructor(private cardService: CardService, private userService: UserService) { }
+  constructor(private cardService: CardService, private userService: UserService,
+    private cdRef: ChangeDetectorRef
+  ) { }
 
   ngOnInit() {
     this.updateCartCount();
     this.cardService.getCartCount().subscribe((count) => {
       this.cartCount = count;
+      this.cdRef.detectChanges(); // ✅ Force UI update
     });
+  }
+
+  ionViewWillEnter(): void {
+    this.updateCartCount();
+    this.cardService.getCartCount().subscribe((count) => {
+      this.cartCount = count;
+    });
+    this.cdRef.detectChanges(); // ✅ Force UI update
   }
 
   updateCartCount() {

@@ -6,6 +6,7 @@ export class UserHistory  {
       public image: string,
       public audio: string,
       public price: number,
+      public categoryName: any,
 
     ) {}
   }

@@ -43,6 +43,18 @@ const routes: Routes = [
     path: 'tabs',
     loadChildren: () => import('./tabs/tabs.module').then( m => m.TabsPageModule)
   },
+  {
+    path: 'mystory',
+    loadChildren: () => import('./mystory/mystory.module').then( m => m.MystoryPageModule)
+  },
+  {
+    path: 'stripe-success',
+    loadChildren: () => import('./stripe-success/stripe-success.module').then( m => m.StripeSuccessPageModule)
+  },
+  {
+    path: 'stripe-payment/:userId',
+    loadChildren: () => import('./stripe-payment/stripe-payment.module').then( m => m.StripePaymentPageModule)
+  },
 ];
 
 @NgModule({

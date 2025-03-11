@@ -39,7 +39,7 @@ export class LoginPage implements OnInit {
             next: (isVerified) => {
               if (isVerified) {
                 // Redirect to Home if verified
-                this.router.navigate(['/home']);
+                this.router.navigate(['/tabs/home']);
               } else {
                 // Redirect to Verification page if not verified
                 this.router.navigate(['/account-verify']);

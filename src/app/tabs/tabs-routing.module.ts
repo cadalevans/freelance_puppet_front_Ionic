@@ -12,7 +12,7 @@ const routes: Routes = [
       { path: 'home', loadChildren: () => import('../home/home.module').then(m => m.HomePageModule) },
       { path: 'mystory', loadChildren: () => import('../home/home.module').then(m => m.HomePageModule) },// list of all buyed history by the user
       { path: 'cart', loadChildren: () => import('../card/card.module').then(m => m.CardPageModule) },
-      { path: '', redirectTo: '/tabs/home', pathMatch: 'full' }
+      //{ path: '', redirectTo: '/tabs/home', pathMatch: 'full' }
     ]
   }
 ];

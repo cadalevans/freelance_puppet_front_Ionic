@@ -11,5 +11,15 @@
     </p>
     <hr>
     <p><strong>Price:</strong> ${{ history?.price }}</p>
+   <!-- <hr>
+    <strong>Categories:</strong> <p>{{ getCategoryNames() }}</p>
+    -->
+    <hr>
+    <strong>Categories:</strong>
+    <div *ngFor="let category of history?.categoryName" 
+     class="category-badge"
+     [ngStyle]="{'background-color': getRandomColor()}">
+      {{ category.name }}
+    </div>
   </ion-card-content>
 </ion-card>

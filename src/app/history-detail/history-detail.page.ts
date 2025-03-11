@@ -41,4 +41,26 @@ export class HistoryDetailPage implements OnInit {
       }
     );
   }
+
+// to separate the category name with coma i can use angular's built-in join()
+getCategoryNames(): string {
+  return this.history?.categoryName.map((category: { name: any; }) => category.name).join(', ') || '';
+}
+
+getCategoryClass(category: string): string {
+  const classes: { [key: string]: string } = {
+    'anoying': 'category-anoying',
+    'sleeping': 'category-sleeping',
+    'shouting': 'category-shouting'
+  };
+  return classes[category] || 'category-default';
+}
+
+getRandomColor(): string {
+  const colors = ['#FF5733', '#33FF57', '#3357FF', '#FF33A1', '#A133FF', '#33FFF3', '#FFC300'];
+  return colors[Math.floor(Math.random() * colors.length)];
+}
+
+
+
 }
