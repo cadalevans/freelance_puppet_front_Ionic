@@ -1,0 +1,24 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>mystory</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen="true" class="safe-area" color="secondary">
+  <!-- Search Bar -->
+  <ion-searchbar (ionInput)="filterItems($event)"></ion-searchbar>
+
+  <div class="history-list">
+    <div class="history-item" *ngFor="let history of filteredHistories"  (click)="goToHistoryDetail(history.id)">
+      <div class="history-card">
+        <img class="history-image" [src]="history.image" alt="{{ history.name }}" />
+        
+        <div class="history-text">
+          <h4><strong> {{ history.name }} </strong></h4>
+          <p class="price">${{ history.price }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>
+

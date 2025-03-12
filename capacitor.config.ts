@@ -9,6 +9,10 @@ const config: CapacitorConfig = {
       publishableKey: "pk_test_51Qc9yTPdPnsmJ4f7WlPAoT0ujYdkD0X5oMW5T7oiWGp1Gg3xkh6JWAqZK6R4T6sEE7xQ4N5cfqqSrPFVJaNCx84i00iWsCgPl2", // Replace with your actual key
     },
   },
+  server: {
+    cleartext: true, // ✅ Allow HTTP requests
+    androidScheme: "http", // ✅ Use HTTP for Android WebView
+  },
 };
 
 export default config;
