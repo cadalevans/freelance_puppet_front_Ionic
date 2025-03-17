@@ -55,6 +55,11 @@ const routes: Routes = [
     path: 'stripe-payment/:userId',
     loadChildren: () => import('./stripe-payment/stripe-payment.module').then( m => m.StripePaymentPageModule)
   },
+  {
+    path: 'paypal-payment/:userId',
+    loadChildren: () => import('./paypal-payment/paypal-payment.module').then( m => m.PaypalPaymentPageModule)
+  },
+
 ];
 
 @NgModule({

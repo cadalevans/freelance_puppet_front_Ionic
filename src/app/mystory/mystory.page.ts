@@ -36,7 +36,7 @@ export class MystoryPage implements OnInit {
   
     ngOnInit(): void {
       this.fetchHistories();
-      this.loadCartItems();;
+      //this.loadCartItems();;
     }
 
     toggleFavorite(history:any) {

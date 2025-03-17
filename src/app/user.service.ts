@@ -58,7 +58,7 @@ export class UserService {
   }
 
   getAllUserHistory(userId: number | null): Observable<UserHistory[]>{
-    return this.http.get<UserHistory[]>(`${userId}/histories`);
+    return this.http.get<UserHistory[]>(`${this.apiUrl}/${userId}/histories`);
   }
    
 
