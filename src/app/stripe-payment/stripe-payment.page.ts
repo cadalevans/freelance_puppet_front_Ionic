@@ -35,7 +35,6 @@ export class StripePaymentPage implements OnInit {
 
     await this.loadStripe();
     await this.initiatePayment();
-    await this.payNow();
 
   }
 

@@ -24,6 +24,13 @@ export class TabsPage implements OnInit {
       this.cartCount = count;
       this.cdRef.detectChanges(); // ✅ Force UI update
     });
+
+    // Subscribe to cart updates
+    this.cardService.cartUpdated$.subscribe(() => {
+      // Refresh cart count on update
+      this.updateCartCount();
+      this.cdRef.detectChanges();
+    });
   }
 
   ionViewWillEnter(): void {

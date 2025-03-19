@@ -14,9 +14,6 @@ import { Router } from '@angular/router';
   standalone: false
 })
 export class CardPage implements OnInit {
-checkout() {
-throw new Error('Method not implemented.');
-}
 
   cartItems: any[] = [];
    histories: UserHistory[] = [];
@@ -38,6 +35,7 @@ throw new Error('Method not implemented.');
 
   ngOnInit() {
     this.loadCartItems();
+    this.cardService.refreshCart();
     this.cdRef.detectChanges();
   }
 
@@ -45,6 +43,7 @@ throw new Error('Method not implemented.');
 
   ionViewWillEnter(): void {
     this.loadCartItems(); // ✅ Always fetch fresh data when switching to Cart
+    this.cardService.refreshCart();
   }
   
 
@@ -81,6 +80,7 @@ loadCartItems(): void {
   
     this.cardService.removeHistoryToCard(this.userId, historyId).subscribe(
       () => {
+        this.cardService.notifyCartUpdate(); // 🔥 Notify all pages that cart changed
         this.loadCartItems();
         this.cardService.updateCartCount(this.cartItems.length - 1); // Update cart count
         this.cdRef.detectChanges();

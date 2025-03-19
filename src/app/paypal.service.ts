@@ -12,7 +12,7 @@ export class PaypalService {
     private apiUrl = `${environment.apiUrl}/api/paypal`;
   
     createPayment(userId: number | null) {
-      return this.http.post(`${this.apiUrl}/create-payment`, {userId});
+      return this.http.post(`${this.apiUrl}/create-payment/${userId}`, {userId});
     }
   
     executePayment(paymentId: string, payerId: string, token: string, userId: number | null) {

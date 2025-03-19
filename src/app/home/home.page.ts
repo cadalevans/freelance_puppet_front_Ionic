@@ -39,13 +39,14 @@ export class HomePage implements OnInit{
   
     ngOnInit(): void {
       this.fetchHistories();
-      this.loadCartItems();;
+      this.loadCartItems();
+      this.cdRef.detectChanges();
+       // Subscribe to cart updates
+    this.cardService.cartUpdated$.subscribe(() => {
+      // Trigger a reload of cart data when the cart is updated
+      this.loadCartItems();
+    });
     }
-
-    toggleFavorite(history:any) {
-      history.isFavorited = !history.isFavorited;
-    }
-    
       
    // Fetch all histories
    fetchHistories(): void {

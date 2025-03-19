@@ -34,19 +34,7 @@ export class LoginPage implements OnInit {
   loginUser() {
     if (this.loginForm.valid) {
   
-            // ✅ Check if the user is verified
-          this.userService.isVerified(this.loginForm.value.email).subscribe({
-            next: (isVerified) => {
-              if (isVerified) {
-                // Redirect to Home if verified
-                this.router.navigate(['/tabs/home']);
-              } else {
-                // Redirect to Verification page if not verified
-                this.router.navigate(['/account-verify']);
-                this.showToast('Please verify your account first.', 'danger');
-              }
-            }
-          });
+
       this.userService.loginUser(this.loginForm.value).subscribe({
         next: (response) => {
           console.log('User logged in:', response);
@@ -59,7 +47,19 @@ export class LoginPage implements OnInit {
             next: (userId) => {
               this.userService.setUserId(userId);
               // Navigate to verification
-              
+              // ✅ Check if the user is verified
+          this.userService.isVerified(this.loginForm.value.email).subscribe({
+            next: (isVerified) => {
+              if (isVerified) {
+                // Redirect to Home if verified
+                this.router.navigate(['/tabs/home']);
+              } else {
+                // Redirect to Verification page if not verified
+                this.router.navigate(['/account-verify']);
+                this.showToast('Please verify your account first.', 'danger');
+              }
+            }
+          });
               this.showToast(response.message, 'success'); // ✅ Show success message
             },
             error: (err) => {

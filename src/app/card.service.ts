@@ -40,6 +40,34 @@ export class CardService {
     return this.cartCount.asObservable();
   }
 
+
+// BehaviorSubject that stores whether the cart has been updated
+private cartUpdated = new BehaviorSubject<boolean>(false);
+  
+// Expose it as an Observable so other components can subscribe
+cartUpdated$ = this.cartUpdated.asObservable();
+
+  // Notify all subscribers that the cart has been updated
+  // Method to trigger cart update notification
+  notifyCartUpdate(): void {
+    this.cartUpdated.next(true); // This sends the signal to other components
+    this.refreshCart();
+  }
+
+  private cartSubject = new BehaviorSubject<CartResponse | null>(null);
+
+  // Method to refresh cart data
+
+  refreshCart() {
+    const userId = localStorage.getItem('userId');// just get the userId 
+    if (userId) {
+      this.getCardHistory(+userId).subscribe(cartData => {
+        const count = cartData?.histories.length || 0;
+        this.cartCount.next(count); // update BehaviorSubject
+      })
+    }
+  }
+
 }
 
 
