@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Your Payment</title>
+    <script src="https://js.stripe.com/v3/"></script>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
+        .card-field, .wechat-pay-field {
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+            max-width: 400px;
+            margin: 10px auto;
+        }
+        #pay-button, #wechat-pay-button {
+            background-color: #635bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin: 5px;
+        }
+        #wechat-pay-button {
+            background-color: #2cb742;
+        }
+    </style>
+</head>
+<body>
+    <h2>Complete Your Payment</h2>
+    <p id="total-amount"></p>
+    <div id="payment-message"></div>
+
+    <!-- Card Payment Form -->
+    <form id="payment-form">
+        <div id="card-element" class="card-field"></div>
+        <button type="submit" id="pay-button">Pay with Card</button>
+    </form>
+
+    <!-- WeChat Pay Button -->
+    <button id="wechat-pay-button">Pay with WeChat Pay</button>
+
+    <script>
+        const stripe = Stripe("your-publishable-key"); // ✅ Replace with your Stripe publishable key
+        const elements = stripe.elements();
+
+        // ✅ Custom Styling (makes it look like Stripe Checkout)
+        const style = {
+            base: {
+                fontSize: "16px",
+                color: "#32325d",
+                fontFamily: "Arial, sans-serif",
+                "::placeholder": { color: "#aab7c4" }
+            },
+            invalid: { color: "#fa755a" }
+        };
+
+        // ✅ Create a Card Input Field
+        const cardElement = elements.create("card", { style });
+        cardElement.mount("#card-element");
+
+        // ✅ Get PaymentIntent ID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const paymentIntentId = urlParams.get("paymentIntentId");
+
+        async function fetchPaymentIntent() {
+            try {
+                const response = await fetch(`your-backend-api-url/api/stripe/payment-intent/${paymentIntentId}`);
+                const data = await response.json();
+                if (!data.clientSecret) throw new Error("Invalid PaymentIntent");
+                return data.clientSecret;
+            } catch (error) {
+                document.getElementById("payment-message").innerText = "Error fetching payment details.";
+            }
+        }
+
+        // ✅ Handle Card Payment
+        async function payWithCard(event) {
+            event.preventDefault();
+            const clientSecret = await fetchPaymentIntent();
+            if (!clientSecret) return;
+
+            const { paymentIntent, error } = await stripe.confirmCardPayment(clientSecret, {
+                payment_method: { card: cardElement }
+            });
+
+            if (error) {
+                document.getElementById("payment-message").innerText = error.message;
+            } else {
+                window.location.href = "your-success-url"; // Redirect after payment
+            }
+        }
+
+        document.getElementById("payment-form").addEventListener("submit", payWithCard);
+
+        // ✅ Handle WeChat Pay
+        document.getElementById("wechat-pay-button").addEventListener("click", async function() {
+            const clientSecret = await fetchPaymentIntent();
+            if (!clientSecret) return;
+
+            const { paymentIntent, error } = await stripe.confirmWeChatPayPayment(clientSecret);
+
+            if (error) {
+                document.getElementById("payment-message").innerText = error.message;
+            } else {
+                window.location.href = "your-success-url"; // Redirect after payment
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,19 +1,39 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>paypal-payment</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
+<!--
+<ion-header>
     <ion-toolbar>
-      <ion-title size="large">paypal-payment</ion-title>
+      <ion-buttons slot="start">
+        <ion-back-button text="Previous" icon="caret-back"></ion-back-button>
+      </ion-buttons>
+      <ion-title>Back Button</ion-title>
     </ion-toolbar>
   </ion-header>
-
-  <button (click)="payWithPaypal()">
-    <img src="https://www.paypalobjects.com/webstatic/en_US/i/buttons/checkout-logo-large.png" 
-         alt="Pay with PayPal" style="width: 200px; height: auto;">
-  </button>
   
-</ion-content>
+  <ion-content [fullscreen]="true" class="ion-padding">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Confirm your Payment</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+  
+        <ion-button 
+          expand="full" 
+          color="medium"
+        >
+          ❌ Back
+        </ion-button>
+  
+        <button
+        (click)="payWithPaypal()">
+          <img src="https://www.paypalobjects.com/webstatic/en_US/i/buttons/checkout-logo-large.png" 
+               alt="Pay with PayPal" style="width: 200px; height: auto;">
+        </button>
+
+        <ion-back-button text="Previous" icon="caret-back"></ion-back-button>
+        
+      </ion-card-content>
+    </ion-card>
+  </ion-content>
+
+-->
+
+

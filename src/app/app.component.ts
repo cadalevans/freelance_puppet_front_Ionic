@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonApp, IonRouterOutlet } from '@ionic/angular';
 import { CardService } from './card.service';
 import { App, AppState } from '@capacitor/app';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -10,7 +11,7 @@ import { App, AppState } from '@capacitor/app';
   standalone: false,
 })
 export class AppComponent {
-  constructor() {
+  constructor(private router: Router) {
     this.initializeApp();
   }
 
@@ -20,7 +21,8 @@ export class AppComponent {
         console.log('App is active again; Reloading page ...');
         setTimeout(() => {
           location.reload(); // ✅ Force page reload
-        }, 500); // Small delay to allow app to settle
+        }, 5000); // Small delay to allow app to settle
+         this.router.navigate(['/tabs/home']);
       }
     });
   }

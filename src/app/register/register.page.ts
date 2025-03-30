@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ToastController } from '@ionic/angular';
+import { Platform, ToastController } from '@ionic/angular';
 import { UserService } from '../user.service';
+import { Capacitor } from '@capacitor/core';
 
 @Component({
   selector: 'app-register',
@@ -30,7 +31,9 @@ export class RegisterPage implements OnInit {
    }
 
    ngOnInit(): void {
-    
+    const platform = Capacitor.getPlatform(); // ✅ Get platform name
+    console.log("Platform detected:", platform);
+      
    }
  
    registerUser() {

@@ -29,35 +29,7 @@
       </div>
     </div>
 
-        <!-- Checkout button with total price -->
-        <ion-button 
-        expand="full" 
-        color="warning" 
-        [routerLink]="['/stripe-payment', userId]">
-        Checkout: ${{ totalPrice.toFixed(2) }}
-      </ion-button>
 
-      <ion-button 
-        expand="full" 
-        color="success"
-        
-      >
-        💳 Pay Now with Stripe
-      </ion-button>
-
-      <ion-button 
-        expand="full" 
-        color="medium"
-        
-      >
-        ❌ Cancel Payment
-      </ion-button>
-
-      <button
-      [routerLink]="['/paypal-payment', userId]">
-        <img src="https://www.paypalobjects.com/webstatic/en_US/i/buttons/checkout-logo-large.png" 
-             alt="Pay with PayPal" style="width: 200px; height: auto;">
-      </button>
 
 
       <ion-card>
@@ -71,18 +43,10 @@
         <!-- Checkout button with total price -->
         <ion-button 
         expand="full" 
-        color="warning" 
-        [routerLink]="['/stripe-payment', userId]">
-        Checkout: ${{ totalPrice.toFixed(2) }}
+        color="danger" 
+        [routerLink]="['/stripe-payment', userId, totalPrice]">
+        💳 Pay Now with Stripe
       </ion-button>
-
-      <ion-button 
-      expand="full" 
-      color="success"
-      
-    >
-      💳 Pay Now with Stripe
-    </ion-button>
     
           <ion-button 
             expand="full" 

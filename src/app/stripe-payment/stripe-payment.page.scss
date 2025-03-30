@@ -1,0 +1,68 @@
+.payment-page {
+    background-color: #f7f7f7;
+  }
+  
+  .payment-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+  
+  .payment-card {
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+  }
+  
+  .payment-title {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    color: #333;
+  }
+  
+  .payment-subtitle {
+    text-align: center;
+    font-size: 16px;
+    color: #666;
+    margin-top: 8px;
+  }
+  
+  .payment-details {
+    margin: 20px 0;
+    font-size: 16px;
+  }
+  
+  .price-info, .order-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  
+  .label {
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .amount, .order-id {
+    font-size: 18px;
+    color: #1c7ed6;
+  }
+  
+  .payment-actions {
+    margin-top: 20px;
+  }
+  
+  .pay-now-btn {
+    margin-bottom: 10px;
+    font-size: 18px;
+  }
+  
+  .cancel-btn {
+    font-size: 18px;
+  }
+  

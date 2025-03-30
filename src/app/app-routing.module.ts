@@ -52,7 +52,7 @@ const routes: Routes = [
     loadChildren: () => import('./stripe-success/stripe-success.module').then( m => m.StripeSuccessPageModule)
   },
   {
-    path: 'stripe-payment/:userId',
+    path: 'stripe-payment/:userId/:totalPrice',
     loadChildren: () => import('./stripe-payment/stripe-payment.module').then( m => m.StripePaymentPageModule)
   },
   {

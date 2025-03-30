@@ -50,7 +50,7 @@ export class StripeSuccessPage implements OnInit {
   }
 
   goToHome() {
-    this.router.navigate(['/home']);
+    this.router.navigate(['tabs/home']);
   }
 
   async showToast(message: string) {

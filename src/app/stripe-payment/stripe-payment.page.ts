@@ -2,8 +2,11 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PaymentSheetEventsEnum, Stripe } from '@capacitor-community/stripe';
+import { Browser } from '@capacitor/browser';
+import { Capacitor } from '@capacitor/core';
 import { LoadingController, ToastController } from '@ionic/angular';
 import { environment } from 'src/environments/environment';
+
 
 @Component({
   selector: 'app-stripe-payment',
@@ -28,6 +31,7 @@ export class StripePaymentPage implements OnInit {
 
   ) {
     this.userId = Number(this.route.snapshot.paramMap.get('userId'));
+    this.totalPrice = Number(this.route.snapshot.paramMap.get('totalPrice'))
   }
 
 
@@ -35,7 +39,6 @@ export class StripePaymentPage implements OnInit {
 
     await this.loadStripe();
     await this.initiatePayment();
-
   }
 
   async loadStripe() {
@@ -45,35 +48,50 @@ export class StripePaymentPage implements OnInit {
   }
 
   async initiatePayment() {
-  const loading = await this.loadingCtrl.create({ message: 'Processing Payment...' });
-  await loading.present();
-
-  this.http.post(`${environment.apiUrl}/api/stripe/transactions/${this.userId}`, {})
-    .subscribe((res: any) => {
-      this.clientSecret = res.clientSecret;  // ✅ Corrected: Use clientSecret, not paymentId
-      this.totalPrice = res.amount / 100;
-      this.paymentIntentId = res.paymentIntentId;
-
-      console.log('PaymentIntent ID:', res.paymentIntentId);
-      console.log('Client Secret:', this.clientSecret);
-
-      if (!this.clientSecret) {
-        console.error('Error: No Client Secret received.');
-        this.showToast('Error: Payment setup failed.');
+    const loading = await this.loadingCtrl.create({ message: 'Processing Payment...' });
+    await loading.present();
+  
+    const platform = Capacitor.getPlatform();
+    console.log("Platform detected:", platform);
+  
+    let clientType = 'web'; 
+    if (platform === 'android') {
+      clientType = 'android';
+    } else if (platform === 'ios') {
+      clientType = 'ios';
+    }
+  
+    this.http.post(`${environment.apiUrl}/api/stripe/transactions/${this.userId}`, {})
+      .subscribe(async (res: any) => {
         loading.dismiss();
-        return;
-      }
+  
+        if (res.checkoutUrl) {
+          // ✅ Immediately redirect to Stripe Checkout
+          await Browser.open({url: res.checkoutUrl})
+        } else {
+          await this.showToast('Failed to get the checkout URL.');
+        }
+  
+      }, async (err) => {
+        console.error(err);
+        await this.showToast('Failed to initiate payment.');
+        loading.dismiss();
+      });
+  }
+  
+  
+  async showToast(message: string) {
+    const toast = await this.toastCtrl.create({ message, duration: 3000 });
+    toast.present();
+  }
+  
+  goBack() {
+    this.router.navigate(['tabs/cart']);
+  }
 
-      // ✅ Automatically prepare the Payment Sheet after fetching the clientSecret
-      this.setupPaymentSheet();
-
-      loading.dismiss();
-    }, async (err) => {
-      console.error(err);
-      await this.showToast('Failed to initiate payment.');
-      loading.dismiss();
-    });
 }
+
+/*
 
   async setupPaymentSheet() {
     try {
@@ -122,6 +140,7 @@ export class StripePaymentPage implements OnInit {
     const loading = await this.loadingCtrl.create({ message: 'Finalizing Payment...' });
     await loading.present();
   
+    
     this.http.post(`${environment.apiUrl}/api/stripe/payment-success/${this.paymentIntentId}/${this.userId}`, {})
       .subscribe((res: any) => {
         if (res === "Payment successfully processed.") {
@@ -144,6 +163,55 @@ export class StripePaymentPage implements OnInit {
   }
 
   goBack() {
-    this.router.navigate(['/cart']);
+    this.router.navigate(['tabs/cart']);
   }
 }
+
+
+
+
+// This initiate payment was good if i use SDK but to Apple policy i need to remove it 
+/*  async initiatePayment() {
+  const loading = await this.loadingCtrl.create({ message: 'Processing Payment...' });
+  await loading.present();
+
+  const platform = Capacitor.getPlatform(); // ✅ Get platform name
+    console.log("Platform detected:", platform);
+
+  // ✅ Detect platform (web, android, ios)
+    let clientType = 'web'; // Default to web
+    if (platform === 'android') {
+      clientType = 'android';
+    } else if (platform === 'ios') {
+      clientType = 'ios';
+    }
+
+  this.http.post(`${environment.apiUrl}/api/stripe/transactions/${this.userId}/${clientType}`, {})
+    .subscribe((res: any) => {
+      this.clientSecret = res.clientSecret;  // ✅ Corrected: Use clientSecret, not paymentId
+      this.totalPrice;
+      this.paymentIntentId = res.paymentIntentId;
+
+      console.log('PaymentIntent ID:', res.paymentIntentId);
+      console.log('Client Type:', clientType);
+      console.log('Client Secret:', this.clientSecret);
+      console.log('total Amount', this.totalPrice)
+
+      if (!this.clientSecret) {
+        console.error('Error: No Client Secret received.');
+        this.showToast('Error: Payment setup failed.');
+        loading.dismiss();
+        return;
+      }
+
+      // ✅ Automatically prepare the Payment Sheet after fetching the clientSecret
+      this.setupPaymentSheet();
+
+      loading.dismiss();
+    }, async (err) => {
+      console.error(err);
+      await this.showToast('Failed to initiate payment.');
+      loading.dismiss();
+    });
+}
+    */

@@ -24,8 +24,9 @@ export class PaypalPaymentPage implements OnInit {
 
   userId = this.userService.getUserId();
 
-  ngOnInit() {
+  async ngOnInit() {
   this.listenForAppUrlOpen();
+  await this.payWithPaypal();
   this.cdRef.detectChanges();
   }
   

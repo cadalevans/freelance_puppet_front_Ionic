@@ -38,9 +38,14 @@ export class HomePage implements OnInit{
     cartItems: Set<number> = new Set();
   
     ngOnInit(): void {
+
+      if(!this.userId || this.userId == null){
+        this.router.navigate(['/login'])
+      }
       this.fetchHistories();
       this.loadCartItems();
       this.cdRef.detectChanges();
+
        // Subscribe to cart updates
     this.cardService.cartUpdated$.subscribe(() => {
       // Trigger a reload of cart data when the cart is updated
