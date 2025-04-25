@@ -59,6 +59,11 @@ const routes: Routes = [
     path: 'paypal-payment/:userId',
     loadChildren: () => import('./paypal-payment/paypal-payment.module').then( m => m.PaypalPaymentPageModule)
   },
+  {
+    path: 'by-category',
+    loadChildren: () => import('./by-category/by-category.module').then( m => m.ByCategoryPageModule)
+  },
+
 
 ];
 

@@ -1,22 +1,24 @@
 <ion-tabs>
-  <ion-tab-bar slot="bottom">
-    <!-- Home Tab -->
-    <ion-tab-button tab="home">
-      <ion-icon name="home"></ion-icon>
-      <ion-label>Home</ion-label>
+  <ion-tab-bar slot="bottom" class="custom-tab-bar">
+
+    <!-- Store Tab -->
+    <ion-tab-button [routerLink]="['/tabs/home']" [class.active-tab]="isActive('/tabs/home')">
+      <svg class="custom-tab-icon"  [attr.fill]="isActive('/tabs/home') ? '#ffcc66' : 'none'"  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="1"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-building-store"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 21l18 0" /><path d="M3 7v1a3 3 0 0 0 6 0v-1m0 1a3 3 0 0 0 6 0v-1m0 1a3 3 0 0 0 6 0v-1h-18l2 -4h14l2 4" /><path d="M5 21l0 -10.15" /><path d="M19 21l0 -10.15" /><path d="M9 21v-4a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v4" /></svg>
+      <ion-label [class.active-label]="isActive('/tabs/home')">Store</ion-label>
     </ion-tab-button>
 
-    <!-- My Story Tab -->
-    <ion-tab-button tab="mystory">
-      <ion-icon name="book"></ion-icon>
-      <ion-label>My Story</ion-label>
+    <!-- Me Tab -->
+    <ion-tab-button [routerLink]="['/tabs/mystory']" [class.active-tab]="isActive('/tabs/mystory')">
+      <svg class="custom-tab-icon"  [attr.fill]="isActive('/tabs/me') ? '#ffcc66' : 'none'"  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="1"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-mood-smile"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M9 10l.01 0" /><path d="M15 10l.01 0" /><path d="M9.5 15a3.5 3.5 0 0 0 5 0" /></svg>
+      <ion-label [class.active-label]="isActive('/tabs/mystory')">Me</ion-label>
     </ion-tab-button>
 
-    <!-- Cart Tab (With Badge) -->
-    <ion-tab-button tab="cart">
-      <ion-icon name="cart"></ion-icon>
+    <!-- Cart Tab -->
+    <ion-tab-button [routerLink]="['/tabs/cart']" [class.active-tab]="isActive('/tabs/cart')">
+      <svg class="custom-tab-icon"  [attr.fill]="isActive('/tabs/cart') ? '#ffcc66' : 'none'" xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="1"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-shopping-cart"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M17 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M17 17h-11v-14h-2" /><path d="M6 5l14 1l-1 7h-13" /></svg>
       <ion-badge *ngIf="cartCount > 0" color="danger">{{ cartCount }}</ion-badge>
-      <ion-label>Cart</ion-label>
+      <ion-label [class.active-label]="isActive('/tabs/cart')">Cart</ion-label>
     </ion-tab-button>
+
   </ion-tab-bar>
 </ion-tabs>

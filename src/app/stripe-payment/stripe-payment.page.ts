@@ -86,7 +86,7 @@ export class StripePaymentPage implements OnInit {
   }
   
   goBack() {
-    this.router.navigate(['tabs/cart']);
+    this.router.navigate(['tabs/home']);
   }
 
 }

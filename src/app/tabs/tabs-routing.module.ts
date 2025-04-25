@@ -12,7 +12,12 @@ const routes: Routes = [
       { path: 'home', loadChildren: () => import('../home/home.module').then(m => m.HomePageModule) },
       { path: 'mystory', loadChildren: () => import('../mystory/mystory.module').then(m => m.MystoryPageModule) },// list of all buyed history by the user
       { path: 'cart', loadChildren: () => import('../card/card.module').then(m => m.CardPageModule) },
+      { path: 'history-detail/:id', loadChildren: () => import('../history-detail/history-detail.module').then( m => m.HistoryDetailPageModule) },
       //{ path: '', redirectTo: '/tabs/home', pathMatch: 'full' }
+      {
+        path: 'by-category',
+        loadChildren: () => import('../by-category/by-category.module').then( m => m.ByCategoryPageModule)
+      },
     ]
   }
 ];

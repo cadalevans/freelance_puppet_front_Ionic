@@ -1,0 +1,32 @@
+.category-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin: 16px 0 8px 12px;
+  }
+  
+  .history-item {
+    --padding-start: 12px;
+    --min-height: 80px;
+  }
+  
+  ion-thumbnail img {
+    border-radius: 8px;
+    object-fit: cover;
+    height: 64px;
+    width: 64px;
+  }
+
+
+  .metadata-end-wrapper {
+    position: absolute;
+  
+    top: 10px;
+    inset-inline-end: 10px;
+  
+    font-size: 0.8rem;
+  
+    display: flex;
+    align-items: center;
+  }
+  
+  

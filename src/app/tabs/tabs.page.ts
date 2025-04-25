@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CardService } from '../card.service';
 import { UserService } from '../user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-tabs',
@@ -15,7 +16,8 @@ export class TabsPage implements OnInit {
   userId= this.userService.getUserId();
 
   constructor(private cardService: CardService, private userService: UserService,
-    private cdRef: ChangeDetectorRef
+    private cdRef: ChangeDetectorRef, private router: Router
+
   ) { }
 
   ngOnInit() {
@@ -52,4 +54,7 @@ export class TabsPage implements OnInit {
     );
   }
 
+  isActive(path: string): boolean {
+    return this.router.url === path;
+  }
 }

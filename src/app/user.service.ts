@@ -45,14 +45,10 @@ export class UserService {
   registerUser(userData: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/register`, userData, { headers: this.headers })
       .pipe(
-        catchError((error: HttpErrorResponse) => {
-          let errorMessage = 'An unknown error occurred!';
-          
-          if (error.status === 400) {
-            errorMessage = error.error.message || 'Email already exists';
-          }
-  
-          return throwError(() => new Error(errorMessage));
+        catchError((error) => {
+          //let errorMessage = 'An unknown error occurred!';
+          console.error('Backend error:', error);
+          return throwError(() => new Error(error?.error?.message || 'Registration failed on server.'));;
         })
       );
   }

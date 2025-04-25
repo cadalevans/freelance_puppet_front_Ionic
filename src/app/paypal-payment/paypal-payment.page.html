@@ -1,39 +1,51 @@
-<!--
-<ion-header>
-    <ion-toolbar>
-      <ion-buttons slot="start">
-        <ion-back-button text="Previous" icon="caret-back"></ion-back-button>
-      </ion-buttons>
-      <ion-title>Back Button</ion-title>
-    </ion-toolbar>
-  </ion-header>
-  
-  <ion-content [fullscreen]="true" class="ion-padding">
-    <ion-card>
-      <ion-card-header>
-        <ion-card-title>Confirm your Payment</ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
-  
-        <ion-button 
-          expand="full" 
-          color="medium"
-        >
-          ❌ Back
-        </ion-button>
-  
-        <button
-        (click)="payWithPaypal()">
-          <img src="https://www.paypalobjects.com/webstatic/en_US/i/buttons/checkout-logo-large.png" 
-               alt="Pay with PayPal" style="width: 200px; height: auto;">
-        </button>
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Payment Page</ion-title>
+  </ion-toolbar>
+</ion-header>
 
-        <ion-back-button text="Previous" icon="caret-back"></ion-back-button>
-        
+<ion-content [fullscreen]="true" class="ion-padding payment-page">
+  <div class="payment-container">
+    <ion-card class="payment-card">
+      <ion-card-header>
+        <ion-card-title class="payment-title">Confirm your Payment</ion-card-title>
+        <ion-card-subtitle class="payment-subtitle">
+          Please click the button below.
+        </ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        <div class="payment-details">
+          <div class="price-info">
+            <!--
+            <span class="label">Total Amount:</span>
+            <span class="amount">{{ totalPrice | currency: 'USD' }}</span>
+            -->
+          </div>
+
+        </div>
+
+        <div class="payment-actions">
+         <!-- <ion-button 
+            expand="full" 
+            color="danger"
+            (click)="payNow()"
+            class="pay-now-btn"
+          >
+            💳 Pay Now
+          </ion-button>
+          -->
+
+          <ion-button 
+            expand="full" 
+            color="medium"
+            (click)="goBack()"
+            class="cancel-btn"
+          >
+          ☺️ Back to menu
+          </ion-button>
+        </div>
       </ion-card-content>
     </ion-card>
-  </ion-content>
-
--->
-
-
+  </div>
+</ion-content>

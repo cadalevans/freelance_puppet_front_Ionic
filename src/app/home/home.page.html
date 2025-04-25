@@ -1,29 +1,81 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Toys Collection</ion-title>
-  </ion-toolbar>
-</ion-header>
+<app-header
+  [showSearch]="true"
+  [currentSegment]="'all'"
+  (segmentChange)="onSegmentChanged($event)">
+</app-header>
 
-<ion-content fullscreen="true" class="safe-area" color="secondary">
-  <!-- Search Bar -->
-  <ion-searchbar (ionInput)="filterItems($event)"></ion-searchbar>
 
+
+
+
+<ion-content fullscreen class="safe-area">
+  <ion-grid>
+    <ion-row>
+      <ion-col size="6" size-md="4" size-lg="3" *ngFor="let history of filteredHistories">
+        <div class="product-card" (click)="goToHistoryDetail(history.id)">
+          <div class="image-wrapper">
+            <img [src]="history.image" alt="{{ history.name }}" />
+
+            <ion-badge *ngIf="history.isHot" class="hot-badge" color="warning">HOT</ion-badge>
+            <!--
+            <div class="icon-bar">
+              <ion-icon name="heart-outline"></ion-icon>
+              <ion-icon name="cart-outline"></ion-icon>
+              <ion-icon name="eye-outline"></ion-icon>
+            </div>
+            -->
+          </div>
+
+          
+
+          <div class="info">
+            <div class="title">{{ history.name }}</div>
+            <div class="price">€{{ history.price }}</div>
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+
+
+
+
+
+<!--
+<ion-content fullscreen="true" class="safe-area" color="">
+
+  
   <div class="history-list">
-    <div class="history-item" *ngFor="let history of filteredHistories"  (click)="goToHistoryDetail(history.id)">
-      <div class="history-card">
-        <img class="history-image" [src]="history.image" alt="{{ history.name }}" />
+    <div class="history-item" *ngFor="let history of filteredHistories" >
+      <div class="history-card" (click)="toggleSelection(history.id)" >
+        <img class="history-image" [src]="history.image" alt="{{ history.name }}"  />
         
-        <div class="history-text">
+        <div class="history-text" (click)="goToHistoryDetail(history.id)" >
           <h4><strong> {{ history.name }} </strong></h4>
           <p class="price">${{ history.price }}</p>
         </div>
 
-        <!-- Show 🛒 icon ONLY if the item is NOT in the cart -->
-        <ion-button *ngIf="!cartItems.has(history.id)" fill="clear" (click)="addToCart(history.id, $event)">
-          shop
-          <ion-icon name="cart"></ion-icon>
+        <-- Show checkbox ONLY in multi-select mode ->
+        <ion-checkbox *ngIf="isMultiSelectMode && !cartItems.has(history.id)" [checked]="selectedHistories.has(history.id)"></ion-checkbox>
+        
+        <!- Add to Cart FAB (only visible in Multi-Select Mode) ->
+        <ion-fab vertical="bottom" horizontal="end" slot="fixed" *ngIf="isMultiSelectMode" class="custom-fab">
+          <ion-fab-button size="small" color="" (click)="addSelectedToCart()">
+            <ion-icon name="cart"></ion-icon>
+          </ion-fab-button>
+        </ion-fab>
+
+
+        <-- Show 🛒 icon ONLY if the item is NOT in the cart ->
+        <ion-button *ngIf="!cartItems.has(history.id) && !isMultiSelectMode" fill="clear" (click)="addToCart(history.id, $event)">
+          <strong>shop</strong>
+          <ion-icon name="cart-outline"></ion-icon>
         </ion-button>
       </div>
     </div>
   </div>
 </ion-content>
+-->
+
+<!-- (click)="toggleSelection(history.id)" -->

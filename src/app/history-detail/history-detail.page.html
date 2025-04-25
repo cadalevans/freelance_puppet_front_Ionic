@@ -1,25 +1,56 @@
+<ion-header color="light">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+    </ion-buttons>
+    <ion-title color="warning"><strong></strong></ion-title>
+  </ion-toolbar>
+</ion-header>
 
-<ion-card color="light">
-  <img [src]="history?.image"/>
-  <ion-card-content>
-    <ion-card-title>
-     <strong> {{ history?.name }} </strong>
-      </ion-card-title>
-      <hr>
-    <p>
-      {{ history?.description }}
-    </p>
-    <hr>
-    <p><strong>Price:</strong> ${{ history?.price }}</p>
-   <!-- <hr>
-    <strong>Categories:</strong> <p>{{ getCategoryNames() }}</p>
+
+
+<ion-content fullscreen class="product-detail">
+
+
+  <div class="product-image-container">
+    <img [src]="history?.image" alt="{{ history?.name }}" />
+    <!--
+    <ion-button fill="clear" class="heart-button">
+      <ion-icon name="heart-outline"></ion-icon>
+    </ion-button>
     -->
-    <hr>
-    <strong>Categories:</strong>
-    <div *ngFor="let category of history?.categoryName" 
-     class="category-badge"
-     [ngStyle]="{'background-color': getRandomColor()}">
-      {{ category.name }}
+  </div>
+
+  <!--  [ngStyle]="{'background-color': getRandomColor()}" -->
+
+  <div class="product-info">
+    <h2 class="price">${{ history?.price }}</h2>
+    <h3 class="name">{{ history?.name }}</h3>
+
+    <div class="categories">
+      <strong>Categories:</strong>
+      <div class="category-list" color="primary">
+        <span *ngFor="let category of history?.categoryName"
+              class="category-badge"
+              [style.background-color]="getCategoryColor(category.name)">
+          {{ category.name }}
+        </span>
+      </div>
     </div>
-  </ion-card-content>
-</ion-card>
+
+    <div class="description">
+      <strong>Description</strong>
+      <p>{{ history?.description }}</p>
+      <br>
+    </div>
+  </div>
+
+  <ion-button  *ngIf="history && cartItems && !cartItems.has(history.id)"
+  expand="block"
+  class="add-to-cart-button"
+  color="dark"
+  (click)="addToCart(history.id, $event)">
+  + Add to Cart
+</ion-button>
+
+
+</ion-content>

@@ -3,6 +3,9 @@ import { IonApp, IonRouterOutlet } from '@ionic/angular';
 import { CardService } from './card.service';
 import { App, AppState } from '@capacitor/app';
 import { Router } from '@angular/router';
+import { register } from 'swiper/element/bundle';
+
+register();
 
 @Component({
   selector: 'app-root',
@@ -22,7 +25,7 @@ export class AppComponent {
         setTimeout(() => {
           location.reload(); // ✅ Force page reload
         }, 5000); // Small delay to allow app to settle
-         this.router.navigate(['/tabs/home']);
+        // this.router.navigate(['/tabs/home']);
       }
     });
   }

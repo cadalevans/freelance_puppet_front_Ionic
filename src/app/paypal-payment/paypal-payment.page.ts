@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { PaypalService } from '../paypal.service';
 import { Browser } from '@capacitor/browser';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../user.service';
 import { ToastController } from '@ionic/angular';
 import { App } from '@capacitor/app';
@@ -20,6 +20,7 @@ export class PaypalPaymentPage implements OnInit {
     private userService: UserService,
     private toastCtrl: ToastController,
     private cdRef: ChangeDetectorRef,
+    private router: Router
   ) { }
 
   userId = this.userService.getUserId();
@@ -80,5 +81,10 @@ export class PaypalPaymentPage implements OnInit {
     });
     await toast.present();
   }
+
+  goBack() {
+    this.router.navigate(['tabs/home']);
+  }
+
 
 }

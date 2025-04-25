@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -6,6 +6,9 @@ import { HomePage } from './home.page';
 
 import { HomePageRoutingModule } from './home-routing.module';
 import { provideHttpClient } from '@angular/common/http';
+import { SharedModule } from '../shared/shared.module';
+
+
 
 
 @NgModule({
@@ -16,8 +19,11 @@ import { provideHttpClient } from '@angular/common/http';
     HomePageRoutingModule,
     FormsModule,
     ReactiveFormsModule,
+    SharedModule
+  
   
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [
     provideHttpClient(),
   ],

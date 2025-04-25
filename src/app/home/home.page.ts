@@ -1,12 +1,14 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../user.service';
-import { ToastController } from '@ionic/angular';
+import { ActionSheetController, GestureController, ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { HistoryService } from '../history.service';
 import { UserHistory } from './history';
 import { environment } from 'src/environments/environment';
 import { CardService } from '../card.service';
+
+
 
 @Component({
   selector: 'app-home',
@@ -18,6 +20,20 @@ import { CardService } from '../card.service';
 
 export class HomePage implements OnInit{
 
+  histories: UserHistory[] = [];
+  public latestHistories: any[] = [];
+  filteredHistories: any[] = []; // Displayed histories (filtered)
+  userId = this.userService.getUserId(); // Replace with the actual user ID
+
+  cartItems: Set<number> = new Set();
+  selectedHistories: Set<number> = new Set();
+
+  selectAllChecked = false; // Track if all are selected
+  isMultiSelectMode = false; // Track multi-selection mode
+
+  pressTimer: any
+
+  @ViewChildren('historyItem') historyItems!: QueryList<ElementRef>;
 
   constructor(private fb: FormBuilder,
      private userService: UserService,
@@ -25,18 +41,15 @@ export class HomePage implements OnInit{
      private router:Router,
      private historyService: HistoryService,
      private cardService: CardService,
-     private cdRef: ChangeDetectorRef
+     private gestureCtrl: GestureController,
+     private cdRef: ChangeDetectorRef,
+     private actionSheetCtrl: ActionSheetController
     ) {
 
 
     }
   
-    histories: UserHistory[] = [];
-    filteredHistories: any[] = []; // Displayed histories (filtered)
-    userId = this.userService.getUserId(); // Replace with the actual user ID
-  
-    cartItems: Set<number> = new Set();
-  
+
     ngOnInit(): void {
 
       if(!this.userId || this.userId == null){
@@ -51,6 +64,9 @@ export class HomePage implements OnInit{
       // Trigger a reload of cart data when the cart is updated
       this.loadCartItems();
     });
+
+    // trie ou récupère les derniers éléments
+    this.latestHistories = this.histories.slice(0, 5);
     }
       
    // Fetch all histories
@@ -83,6 +99,7 @@ export class HomePage implements OnInit{
       (error) => console.error('Error fetching cart items:', error)
     );
   }
+  
 
   // Add item to cart
   addToCart(historyId: number, event: Event): void {
@@ -115,7 +132,7 @@ export class HomePage implements OnInit{
     // go to history detail page 
 
     goToHistoryDetail(historyId: number) {
-      this.router.navigate(['/history-detail', historyId]);
+      this.router.navigate(['/tabs/history-detail', historyId]);
     }
 // count the history added or removed in realtime 
     realTimeLoader() {
@@ -125,12 +142,146 @@ export class HomePage implements OnInit{
       });
     }
 
-    // remove history to card 
-    removeFromCart(historyId: number) {
-      this.cardService.removeHistoryToCard(this.userId, historyId).subscribe(() => {
-        this.realTimeLoader();
-        this.cdRef.detectChanges();
-      });
+
+  // ✅ Add Multiple Items to Cart
+  addSelectedToCart() {
+    const selectedArray = Array.from(this.selectedHistories);
+    if (selectedArray.length === 0) {
+      console.warn("⚠ No histories selected. Aborting API call.");
+      return;
     }
+  
+    this.cardService.addMultipleHistoriesToCard(this.userId, selectedArray).subscribe(() => {
+      // ✅ Add items to cartItems Set (to track UI state)
+      selectedArray.forEach(id => this.cartItems.add(id));
+
+      console.log('cart Items value : ', this.cartItems)
+  
+      // ✅ Optionally, update locally before API response
+      this.cardService.getCardHistory(this.userId).subscribe(() => {
+        this.cardService.updateCartCount(this.cartItems.size); // ✅ Refresh data in Cart
+      });
+        
+      // ✅ Update cart count correctly
+      this.realTimeLoader(); // Updates from API
+  
+      // ✅ Clear selection & exit multi-select mode
+      this.selectedHistories.clear();
+      this.isMultiSelectMode = false;
+      this.cdRef.detectChanges();
+    });
+  }
+  
+
+
+
+
+/** Toggle Selection */
+toggleSelection(historyId: number) {
+  
+  console.log("🔄 Toggling selection for:", historyId);
+
+  if (this.selectedHistories.has(historyId)) {
+    console.log("❌ Removing from selection:", historyId);
+    this.selectedHistories.delete(historyId);
+  } else {
+    console.log("✅ Adding to selection:", historyId);
+    this.selectedHistories.add(historyId);
+  }
+
+  console.log("📌 Selected Histories Set:", Array.from(this.selectedHistories));
+
+  // Exit multi-select mode if no items are selected
+  this.isMultiSelectMode = this.selectedHistories.size > 0;
+}
+
+
+/** Select All Histories */
+selectAll() {
+  if (this.selectedHistories.size === this.histories.length) {
+    console.log("🔴 Clearing selection");
+    this.selectedHistories.clear();
+    this.isMultiSelectMode = false; // Exit multi-select mode
+  } else {
+    this.selectedHistories = new Set(
+      this.histories
+        .filter(history => !this.cartItems.has(history.id)) // Only select those NOT in the cart
+        .map(history => history.id)
+    );
+    this.isMultiSelectMode = true; // Enable multi-select mode
+  }
+  
+  this.cdRef.detectChanges(); // Force UI refresh
+}
+
+/** Add Selected Items to Cart */
+addToCarts() {
+  const selectedArray = Array.from(this.selectedHistories);
+  console.log("Selected Histories:", selectedArray); // ✅ Check if data is correct
+
+  if (selectedArray.length === 0) {
+    console.warn("⚠ No histories selected. Aborting API call.");
+    return;
+  }
+
+  this.cardService.addMultipleHistoriesToCard(this.userId, selectedArray).subscribe(
+    () => {
+      console.log("✅ API Call Successful!");
+      this.selectedHistories.clear();
+      this.isMultiSelectMode = false;
+    },
+    (error) => {
+      console.error("❌ Error adding multiple histories:", error);
+    }
+  );
+}
+
+
+  /** Show Action Sheet */
+  async presentActionSheet(event: Event) {
+    event.stopPropagation(); // Prevents any unintended click propagation
+  
+    const actionSheet = await this.actionSheetCtrl.create({
+      header: 'Select Options',
+      buttons: [
+        {
+          text: 'Select Many',
+          handler: () => {
+            this.isMultiSelectMode = true;
+          }
+        },
+        {
+          text: 'Select All',
+          handler: () => {
+            this.selectAll();
+          }
+        },
+        {
+          text: 'Cancel',
+          role: 'cancel'
+        }
+      ]
+    });
+  
+    await actionSheet.present();
+  }
+
+  /** Enable Multi-Selection */
+  enableMultiSelect(historyId: number) {
+    this.isMultiSelectMode = true;
+    this.toggleSelection(historyId);
+  }
+
+
+  onSegmentChanged(value: string) {
+    if (value === 'favorites') {
+      this.router.navigate(['/tabs/by-category']);
+    } else {
+      this.router.navigate(['/tabs/home']);
+    }
+  }
+  
 
 }
+
+

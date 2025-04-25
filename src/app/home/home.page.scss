@@ -92,3 +92,194 @@ ion-icon {
 ion-icon.favorited {
   color: #ff6b6b;
 }
+
+/* This is for the FAB */
+.custom-fab {
+  margin-bottom: 40px; /* Adjust this value to move FAB above the footer */
+}
+
+
+.app-item {
+  --padding-start: 10px;
+  --inner-padding-end: 10px;
+
+  ion-label {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .category {
+    font-size: 13px;
+    color: gray;
+  }
+
+  .rating {
+    display: flex;
+    align-items: center;
+    margin-top: 4px;
+
+    ion-icon {
+      font-size: 16px;
+      margin-right: 4px;
+    }
+
+    .score {
+      font-weight: 500;
+      margin-right: 6px;
+    }
+
+    .reviews {
+      color: gray;
+      font-size: 13px;
+    }
+  }
+}
+
+
+.square-image {
+  width: 56px;
+  height: 56px;
+  object-fit: cover;
+  border-radius: 8px; // Optional: makes it slightly rounded
+  margin-right: 10px;
+}
+
+
+
+
+
+.custom-header {
+  ion-toolbar {
+    --background:#fdf1dc !important; /* or #f5ecd9 */
+    --color: white;
+    min-height: 48px; // hauteur plus fine
+  }
+
+  .search-toolbar {
+    display: flex;
+    align-items: center;
+    padding: 0 8px;
+    min-height: 52px;
+  }
+
+  .custom-searchbar {
+    flex: 1;
+    --background: white;
+    --border-radius: 25px;
+    --height: 36px; // rétrécir la hauteur
+    font-size: 14px;
+    margin-right: 8px;
+  }
+
+  ion-icon {
+    font-size: 20px; // icône plus petite
+  }
+
+  .menu-toolbar {
+    ion-segment {
+      background: transparent;
+      --indicator-color: white;
+      --color-checked: white;
+      --color: #d7fbe8;
+    }
+
+    ion-label {
+      font-size: 12px; // police plus petite
+      font-weight: 500;
+      text-transform: uppercase;
+    }
+
+    ion-segment-button {
+      padding: 0 6px;
+    }
+  }
+}
+
+// For the Grid
+
+.product-card {
+  background: #fff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease-in-out;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+}
+
+.product-card:hover {
+  transform: scale(1.02);
+}
+
+/* Zoom bounce effect on touch */
+.product-card:active {
+  transform: scale(0.97); /* subtle bounce */
+}
+
+.image-wrapper {
+  position: relative;
+  width: 100%;
+  padding-top: 100%;
+  overflow: hidden;
+}
+
+.image-wrapper img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease-in-out; // <- Add transition
+}
+
+/* Zoom effect on hover and tap */
+.product-card:active .image-wrapper img,
+.product-card:hover .image-wrapper img {
+  transform: scale(1.05); // Slight zoom
+}
+
+.product-card:active {
+  transform: scale(0.98); // slight shrink on tap for tactile feel
+}
+
+
+
+
+.icon-bar {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 30px;
+  display: flex;
+  gap: 10px;
+  padding: 6px 12px;
+}
+
+.icon-bar ion-icon {
+  font-size: 20px;
+  color: #333;
+}
+
+.info {
+  text-align: center;
+  padding: 12px;
+}
+
+.title {
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+
+.price {
+  font-size: 16px;
+  font-weight: bold;
+  color: gray;
+}
+
+
+

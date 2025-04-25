@@ -68,6 +68,16 @@ cartUpdated$ = this.cartUpdated.asObservable();
     }
   }
 
+  // Add mutiple history to card 
+
+  addMultipleHistoriesToCard(userId: number | null, historyIds: number[]): Observable<any> {
+    return this.http.post(`${this.apiUrl}/cart/add-multiple`, {
+      userId,
+      historyIds
+    });
+  }
+  
+
 }
 
 

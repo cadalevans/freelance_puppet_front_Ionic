@@ -6,15 +6,24 @@ import { UserHistory } from '../home/history';
 import { CartResponse } from './cart.models';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { AnimationOptions } from 'ngx-lottie';
+
 
 @Component({
   selector: 'app-card',
   templateUrl: './card.page.html',
   styleUrls: ['./card.page.scss'],
-  standalone: false
+  standalone: false,
+
 })
 export class CardPage implements OnInit {
 
+  lottieOptions: AnimationOptions = {
+    path: 'https://assets5.lottiefiles.com/packages/lf20_G9WkKv.json', // Path to your Lottie animation JSON
+    autoplay: true,
+    loop: true
+  };
+  
   cartItems: any[] = [];
    histories: UserHistory[] = [];
   totalPrice: number = 0; // Store total price
