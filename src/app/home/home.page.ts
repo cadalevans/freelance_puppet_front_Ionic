@@ -274,7 +274,7 @@ addToCarts() {
 
 
   onSegmentChanged(value: string) {
-    if (value === 'favorites') {
+    if (value === 'category') {
       this.router.navigate(['/tabs/by-category']);
     } else {
       this.router.navigate(['/tabs/home']);

@@ -1,6 +1,6 @@
 <app-header
   [showSearch]="false"
-  [currentSegment]="'favorites'"
+  [currentSegment]="'category'"
   (segmentChange)="onSegmentChanged($event)">
 </app-header>
 
@@ -40,7 +40,7 @@
     <h2 class="category-title">{{ category.name }}</h2>
   
     <ion-list [inset]="true">
-      <ion-item *ngFor="let history of category.histories" class="history-item" button>
+      <ion-item *ngFor="let history of category.histories" class="history-item" button  (click)="goToHistoryDetail(history.id)">
         <ion-thumbnail slot="start">
           <img [src]="history.image" alt="History image" />
         </ion-thumbnail>

@@ -29,4 +29,9 @@ export class CategoryService {
   getHistoriesByCategory(categoryName: string): Observable<any> {
     return this.http.get(`${this.apiUrl}/categoryName/${categoryName}/histories`);
   }
+
+
+  getHistoriesByCategoryNamePeruser(categoryName: string, userId: number|null): Observable<any> {
+    return this.http.get(`${this.apiUrl}/histories/by-categoryName/${userId}/${categoryName}`);
+  }
 }

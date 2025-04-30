@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CategoryService } from '../category.service';
 import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-by-category',
@@ -11,16 +12,19 @@ import { Router } from '@angular/router';
 })
 export class ByCategoryPage implements OnInit {
 
+  userId = this.userService.getUserId();
   categoriesWithHistories: { name: string, histories: any[] }[] = [];
 
   constructor(private categoryService: CategoryService,
+   private userService: UserService,
     private router: Router
   ) {}
 
   ngOnInit() {
+    
     this.categoryService.getAllCategories().subscribe((categories: any[]) => {
       categories.forEach(category => {
-        this.categoryService.getHistoriesByCategory(category.name).subscribe(histories => {
+        this.categoryService.getHistoriesByCategoryNamePeruser(category.name,this.userId).subscribe(histories => {
           // Adjust image paths
           const adjustedHistories = histories.map((history: { image: any; }) => ({
             ...history,

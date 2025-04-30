@@ -1,10 +1,23 @@
 /* Set the entire page background to light gray */
+
+.safe-area {
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+  
+}
+
+
 ion-content {
-    --background: #F6F6F6 !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  text-align: center;
   }
   
   /* Ensure ion-header remains separate (not affected by the gray background) */
-  
+ 
   
   /* Keep the header looking nice */
   /*
@@ -93,3 +106,24 @@ ion-content {
     color: #ff6b6b;
   }
   
+    // Empty cart section
+
+    .empty-cart {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 30%;
+      text-align: center;
+    
+      .empty-cart-image {
+        width: 150px;
+        height: auto;
+        margin-bottom: 16px;
+      }
+    
+      .empty-message {
+        font-size: 18px;
+        color: #444;
+      }
+    }

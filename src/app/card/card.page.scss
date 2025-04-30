@@ -1,17 +1,18 @@
 
 .safe-area {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+  
+}
 
 
 .cart-container {
-    padding: 20px;
+    padding-top: 80px;
+    padding-left: 20px;
+    padding-right: 20px;
     background: #f6f6f6;
     min-height: 100vh;
+    justify-content: center;
   }
   
   .total-price {
@@ -98,7 +99,7 @@
     font-size: 1.1rem;
   }
   
-} 
+
 
   // Empty cart section
 

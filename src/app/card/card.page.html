@@ -1,3 +1,6 @@
+
+
+
 <ion-content class="safe-area">
 
   <!-- Empty Cart View with Animation -->
@@ -40,7 +43,7 @@
       <ion-button expand="block" color="dark" [routerLink]="['/stripe-payment', userId, totalPrice]">
         Pay with Stripe
       </ion-button>
-      <ion-button expand="block" color="warning" fill="outline">
+      <ion-button expand="block" color="warning" fill="outline" [routerLink]="['/paypal-payment', userId]">
         Pay with PayPal
       </ion-button>
     </div>
